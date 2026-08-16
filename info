@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Provide info about dotfiles setup
+# confirm script passes shellcheck
+declare -i file_count
+folder="$PWD"
+file_count=$(find "${folder}" ./* -prune | wc -l)
+file_count=${file_count}-1
+today=$(date +%Y-%m-%d)
+
+echo "=== Dotfile Info ==="
+echo "${USER} has ${file_count} dotfiles saved in: ${folder}"
+echo "Date: $today"

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Description: Display Dotfiles Information
+
+declare -i file_count
+
+dotfiles_dir="$HOME/dotfiles"
+file_count=$(find "${dotfiles_dir}" ./* -prune | wc -l)
+file_count=${file_count}-1
+today=$(date +%Y-%m-%d)
+
+echo "===Dotfiles Info==="
+echo "$HOST:$USER"
+echo "Dotfiles location: $dotfiles_dir"
+echo "Files tracked: $file_count"
+echo "Date: $today"
