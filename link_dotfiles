@@ -1,0 +1,38 @@
+#!/bin/bash
+
+# Description: Link dotfiles to dest_dir directory
+# Edit dest_dir="<TARGET>" to choose a different location
+
+dotfiles_dir="$HOME/dotfiles"
+dest_dir="$HOME/lab/link-test"
+
+mkdir -p "$dest_dir/.config"
+
+config_dir="$dest_dir/.config"
+
+# Build array of all dotfiles, excludes executable files
+for file in "$dotfiles_dir"/*; do
+	[[ -f "$file" && ! -x "$file" ]] || continue
+	file_array+=("${file##*/}")
+	done	
+
+# DEBUG: confirms contents of array
+echo "dotfiles found: " "${file_array[@]}"
+
+link_file() {
+	local files+=("$@")
+	for file in "${files[@]}"; do
+# DEBUG: confirms file being processed		
+		echo "$file"
+		if [[ "$file" != *.toml ]]; then
+		       	ln -sf "$dotfiles_dir/${file}" "$dest_dir/.${file}"
+		elif [[ "$file" == *.toml ]]; then
+			ln -sf "$dotfiles_dir/${file}" "$config_dir/${file}"
+		fi
+	done
+}
+
+link_file "${file_array[@]}"
+
+echo "Dotfiles linked!"
+
